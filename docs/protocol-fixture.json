@@ -1,0 +1,86 @@
+{
+  "warning": "TEST ONLY: public deterministic keys, fixed historical clock, no production trust.",
+  "now": 1790078400,
+  "trust": {
+    "registryId": "test-registry",
+    "minimumSequence": 1,
+    "roots": [
+      {
+        "kid": "release-1",
+        "publicKey": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc"
+      }
+    ]
+  },
+  "merchant": {
+    "version": 1,
+    "id": "example",
+    "name": "Example Shop",
+    "origins": [
+      "https://shop.example.com"
+    ],
+    "status": "active",
+    "paymentKeys": [
+      {
+        "kid": "merchant-1",
+        "algorithm": "Ed25519",
+        "publicKey": "oJql9HpnWYAv-VX43C0qFKXJnSO-l_hkEn_5ODRVpPA",
+        "networks": [
+          "testnet"
+        ],
+        "notBefore": 1790078300,
+        "expiresAt": 1790164800
+      }
+    ]
+  },
+  "registryPayload": {
+    "version": 1,
+    "registryId": "test-registry",
+    "sequence": 1,
+    "issuedAt": 1790078400,
+    "expiresAt": 1790082000,
+    "sourceCommit": "0000000000000000000000000000000000000000",
+    "merchants": [
+      {
+        "version": 1,
+        "id": "example",
+        "name": "Example Shop",
+        "origins": [
+          "https://shop.example.com"
+        ],
+        "status": "active",
+        "paymentKeys": [
+          {
+            "kid": "merchant-1",
+            "algorithm": "Ed25519",
+            "publicKey": "oJql9HpnWYAv-VX43C0qFKXJnSO-l_hkEn_5ODRVpPA",
+            "networks": [
+              "testnet"
+            ],
+            "notBefore": 1790078300,
+            "expiresAt": 1790164800
+          }
+        ]
+      }
+    ],
+    "revocations": []
+  },
+  "invoicePayload": {
+    "version": 1,
+    "registryId": "test-registry",
+    "merchantId": "example",
+    "kid": "merchant-1",
+    "origin": "https://shop.example.com",
+    "network": "testnet",
+    "invoiceId": "order-1",
+    "issuedAt": 1790078400,
+    "expiresAt": 1790079000,
+    "paymentUri": "zcash:ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez?amount=0.01&memo=aGVsbG8"
+  },
+  "registryJws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtcmVnaXN0cnkrandzIiwia2lkIjoicmVsZWFzZS0xIn0.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsInNlcXVlbmNlIjoxLCJpc3N1ZWRBdCI6MTc5MDA3ODQwMCwiZXhwaXJlc0F0IjoxNzkwMDgyMDAwLCJzb3VyY2VDb21taXQiOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwibWVyY2hhbnRzIjpbeyJ2ZXJzaW9uIjoxLCJpZCI6ImV4YW1wbGUiLCJuYW1lIjoiRXhhbXBsZSBTaG9wIiwib3JpZ2lucyI6WyJodHRwczovL3Nob3AuZXhhbXBsZS5jb20iXSwic3RhdHVzIjoiYWN0aXZlIiwicGF5bWVudEtleXMiOlt7ImtpZCI6Im1lcmNoYW50LTEiLCJhbGdvcml0aG0iOiJFZDI1NTE5IiwicHVibGljS2V5Ijoib0pxbDlIcG5XWUF2LVZYNDNDMHFGS1hKblNPLWxfaGtFbl81T0RSVnBQQSIsIm5ldHdvcmtzIjpbInRlc3RuZXQiXSwibm90QmVmb3JlIjoxNzkwMDc4MzAwLCJleHBpcmVzQXQiOjE3OTAxNjQ4MDB9XX1dLCJyZXZvY2F0aW9ucyI6W119.m5mByZQos6vYJquiq0CsSpyNzMOmuw1LOcixqKKWgobgVonquQYicWMXX8tHH4gSDswlWoEpMYQ7hcBqtCAmAQ",
+  "invoiceJws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJtZXJjaGFudC0xIn0.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoibWVyY2hhbnQtMSIsIm9yaWdpbiI6Imh0dHBzOi8vc2hvcC5leGFtcGxlLmNvbSIsIm5ldHdvcmsiOiJ0ZXN0bmV0IiwiaW52b2ljZUlkIjoib3JkZXItMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDp6dGVzdHNhcGxpbmcxMHl5MmV4NWRjcWtjbGhjN3o3eXJuanEyejZmZXlqYWQ1NnB0d2xmZ215NzdkbWFxcXJsOWd5aHByZHg1OXFnbXNueWZza2Eya2V6P2Ftb3VudD0wLjAxJm1lbW89YUdWc2JHOCJ9.6R0aHbmsGPD7XaYkU_jilN3xPsnPb7EEb-Bfhu0-kbCn5qLg8XEzAV_xFH2bNS5Ez2bas7xMj2vWyFOBPCKNCw",
+  "expected": {
+    "amountZatoshis": "1000000",
+    "memoBase64url": "aGVsbG8",
+    "verification": "issuer-only"
+  }
+}

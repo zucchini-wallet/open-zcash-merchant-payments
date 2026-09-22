@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Merchant invoice verification demo</title><link rel="stylesheet" href="/style.css"></head><body><main>
+<p class="eyebrow">OPEN ZCASH MERCHANT PAYMENTS · TESTNET DEMO</p><h1>A payment you can verify.</h1>
+<p>This demonstrates a signed merchant invoice. It does not connect a wallet or send funds.</p>
+<section><h2>Demo order</h2><p class="amount">0.01 <small>ZEC</small></p><p>Recipient and amount come from the merchant server’s fixed test order.</p><button id="create">Create signed invoice</button></section>
+<section id="review" hidden><h2>Wallet verification preview</h2><p id="status" role="status"></p><dl id="details"></dl><button id="verify">Verify invoice</button><button id="tamper" class="secondary">Test amount tampering</button><details><summary>Signed invoice</summary><textarea id="invoice" readonly aria-label="Signed invoice"></textarea></details></section>
+<p class="footnote">Issuer-only import simulation. Demo trust keys are supplied by this local server; a real wallet pins its own registry trust roots. The address adapter accepts one published test fixture only.</p>
+</main><script type="module" src="/app.js"></script></body></html>

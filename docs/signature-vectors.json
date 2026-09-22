@@ -1,0 +1,86 @@
+{
+  "warning": "PUBLIC TEST KEY. Signature-layer fixtures only; every payment URI here is invalid.",
+  "testSeedHex": "1111111111111111111111111111111111111111111111111111111111111111",
+  "publicKey": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc",
+  "header": {
+    "alg": "Ed25519",
+    "typ": "zcash-merchant-invoice+jws",
+    "kid": "fixture-only"
+  },
+  "payload": {
+    "version": 1,
+    "registryId": "test-registry",
+    "merchantId": "example",
+    "kid": "fixture-only",
+    "origin": "https://shop.example.com",
+    "network": "testnet",
+    "invoiceId": "fixture-001",
+    "issuedAt": 1790078400,
+    "expiresAt": 1790079000,
+    "paymentUri": "zcash:TEST_ONLY_NOT_AN_ADDRESS?amount=0.01&memo=aGVsbG8",
+    "challenge": "AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM"
+  },
+  "signingInput": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9",
+  "vectors": [
+    {
+      "name": "signature-valid-payment-invalid",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": true
+    },
+    {
+      "name": "tampered-recipient",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpBVFRBQ0tFUj9hbW91bnQ9MC4wMSZtZW1vPWFHVnNiRzgiLCJjaGFsbGVuZ2UiOiJBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNIn0.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-amount",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTEuMDAmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-memo",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1kR0Z0Y0dWeVpXUSIsImNoYWxsZW5nZSI6IkF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd00ifQ.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-origin",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9hdHRhY2tlci5leGFtcGxlIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-network",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6Im1haW5uZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-invoiceId",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJkaWZmZXJlbnQtaW52b2ljZSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-expiry",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDEsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-challenge",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-algorithm",
+      "jws": "eyJhbGciOiJub25lIiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJmaXh0dXJlLW9ubHkifQ.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-purpose",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtcmVnaXN0cnkrandzIiwia2lkIjoiZml4dHVyZS1vbmx5In0.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    },
+    {
+      "name": "tampered-key-id",
+      "jws": "eyJhbGciOiJFZDI1NTE5IiwidHlwIjoiemNhc2gtbWVyY2hhbnQtaW52b2ljZStqd3MiLCJraWQiOiJvdGhlciJ9.eyJ2ZXJzaW9uIjoxLCJyZWdpc3RyeUlkIjoidGVzdC1yZWdpc3RyeSIsIm1lcmNoYW50SWQiOiJleGFtcGxlIiwia2lkIjoiZml4dHVyZS1vbmx5Iiwib3JpZ2luIjoiaHR0cHM6Ly9zaG9wLmV4YW1wbGUuY29tIiwibmV0d29yayI6InRlc3RuZXQiLCJpbnZvaWNlSWQiOiJmaXh0dXJlLTAwMSIsImlzc3VlZEF0IjoxNzkwMDc4NDAwLCJleHBpcmVzQXQiOjE3OTAwNzkwMDAsInBheW1lbnRVcmkiOiJ6Y2FzaDpURVNUX09OTFlfTk9UX0FOX0FERFJFU1M_YW1vdW50PTAuMDEmbWVtbz1hR1ZzYkc4IiwiY2hhbGxlbmdlIjoiQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TURBd01EQXdNREF3TSJ9.ovRF_k0v3rDVWg1cCaiC_EYJ5ViSJ6s2HLl1J2rQIBzid-_cugXjlxpBNoi0gwFsT5Ohi8V13pThSLj_iqOXBw",
+      "signatureValid": false
+    }
+  ]
+}
