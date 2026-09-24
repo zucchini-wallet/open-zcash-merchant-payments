@@ -1,16 +1,9 @@
-// Run only with a maintainer-issued challenge file from a trusted location.
-// Never use a PR-provided challenge as authority or grant this job release secrets.
+// PR data is input only. Run this from the trusted operator checkout.
 import { readFile } from 'node:fs/promises';
 import { resolveTxt } from 'node:dns/promises';
-import { strictJSON, verifyRegistrationProof } from '../src/index.js';
-const [recordPath, proofPath, trustedChallengePath] = process.argv.slice(2);
-if (!recordPath || !proofPath || !trustedChallengePath) throw new Error('Usage: node scripts/verify-domain.mjs <merchant.json> <proof.jws> <trusted-challenge.json>');
-const recordBytes = new Uint8Array(await readFile(recordPath));
-const record = strictJSON(new TextDecoder('utf-8', { fatal: true }).decode(recordBytes));
-const expected = strictJSON(await readFile(trustedChallengePath, 'utf8'));
-const proof = await verifyRegistrationProof((await readFile(proofPath, 'utf8')).trim(), { record, recordBytes, expected });
-const hostname = new URL(proof.origin).hostname;
-const wanted = `v=1; registry=${proof.registryId}; merchant=${proof.merchantId}; record=${proof.recordSha256}; challenge=${proof.challenge}`;
-const records = await resolveTxt('_zcash-merchant.' + hostname);
-if (!records.some((chunks) => chunks.join('') === wanted)) throw new Error('Domain TXT proof does not match the trusted challenge');
-console.log('Domain control and key possession verified. Maintainer approval and protected release are still required.');
+import { strictJSON } from '../src/index.js';
+import { verifyEnrollment } from './lifecycle.mjs';
+const [recordPath, proofPath, trustedChallengePath, repository, sourceCommit] = process.argv.slice(2);
+if (!sourceCommit) throw new Error('Usage: node scripts/verify-domain.mjs <record> <proof> <trusted-envelope> <owner/repo> <record-commit>');
+const result = await verifyEnrollment({recordBytes:await readFile(recordPath),compact:(await readFile(proofPath,'utf8')).trim(),trustedChallenge:strictJSON(await readFile(trustedChallengePath,'utf8')),repository,sourceCommit,resolveTxt,now:Math.floor(Date.now()/1000)});
+console.log(JSON.stringify(result,null,2));

@@ -5,6 +5,8 @@ Production registration and signed releases remain disabled. Keep one `merchants
 `proofs/<id>/` for public attestations, schemas, validator tests, CONTRIBUTING,
 SECURITY, CODEOWNERS and protected release workflows. No customer payment data.
 
+Executable operator tooling and provisioning gates are documented in [operator-lifecycle.md](operator-lifecycle.md). Trusted challenge envelopes bind repository and PR head outside the signed protocol payload; the wire format remains unchanged.
+
 ## Merchant submission
 
 1. Generate a dedicated Ed25519 invoice-signing key on the merchant backend.
