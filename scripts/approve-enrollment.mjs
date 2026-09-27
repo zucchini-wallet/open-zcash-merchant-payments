@@ -1,3 +1,4 @@
+import { temporaryReviewPolicy as policy, reviewRequirement } from './review-policy.mjs';
 // This command fetches PR DATA only. Never executes a PR checkout or accepts PR CI as authority.
 // Run from a trusted checkout with operator-owned config/evidence/ledger directories.
 import {execFileSync} from 'node:child_process';
@@ -14,7 +15,8 @@ const api=path=>strictJSON(execFileSync('gh',['api',path],{encoding:'utf8',maxBu
 const prefix=`repos/${config.repository}`;
 const pull=api(`${prefix}/pulls/${bundle.pullNumber}`),sourceCommit=pull.head.sha;
 let reviews=[];for(let page=1;;page++){const part=api(`${prefix}/pulls/${bundle.pullNumber}/reviews?per_page=100&page=${page}`);reviews.push(...part);if(part.length<100)break;if(page>=100)throw Error('Too many reviews');}
-const reviewers=validateReviewEvidence({pull,reviews,repository:config.repository,sourceCommit,maintainers:config.maintainers});
+const reviewTime=Math.floor(Date.now()/1000);
+let reviewers=validateReviewEvidence({pull,reviews,repository:config.repository,sourceCommit,maintainers:config.maintainers,now:reviewTime,policy});
 if(!/^[a-z0-9][a-z0-9-]{0,63}$/.test(bundle.merchantId))throw Error('Invalid merchant ID');
 const file=api(`${prefix}/contents/merchants/${bundle.merchantId}.json?ref=${sourceCommit}`);
 if(file.type!=='file'||file.encoding!=='base64'||file.size>65536)throw Error('Invalid record file');
@@ -53,7 +55,10 @@ try {
  }
  // Re-read immediately before acceptance to detect a head change during DNS/verification.
  if(api(`${prefix}/pulls/${bundle.pullNumber}`).head.sha!==sourceCommit)throw Error('PR changed during verification');
- ledger.merchants[record.id]={record,recordSha256:hash(recordBytes),sourceCommit,pullNumber:bundle.pullNumber,reviewers,verifiedAt:now,proofs:checks,revokedKids,mode,...(bundle.decision?{decision:bundle.decision}:{})};
+ const acceptedAt=Math.floor(Date.now()/1000);
+ reviewers=validateReviewEvidence({pull,reviews,repository:config.repository,sourceCommit,maintainers:config.maintainers,now:acceptedAt,policy});
+ const rule=reviewRequirement({repository:config.repository,maintainers:config.maintainers,now:acceptedAt,policy});
+ ledger.merchants[record.id]={record,recordSha256:hash(recordBytes),sourceCommit,pullNumber:bundle.pullNumber,reviewers,author:pull.user.login,...(rule.policyId?{reviewPolicyId:rule.policyId}:{}),verifiedAt:acceptedAt,proofs:checks,revokedKids,mode,...(bundle.decision?{decision:bundle.decision}:{})};
  await writeFile(ledgerFile+'.tmp',JSON.stringify(ledger,null,2)+'\n',{mode:0o600});await rename(ledgerFile+'.tmp',ledgerFile);
  console.log(JSON.stringify({accepted:record.id,sourceCommit,reviewers,recordSha256:hash(recordBytes)}));
 } finally {await lock.close();const {unlink}=await import('node:fs/promises');await unlink(ledgerFile+'.lock');}

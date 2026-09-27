@@ -100,3 +100,20 @@ Do not roll back to an older signed file to undo a mistake. Issue a higher
 sequence with corrected records/tombstones. Root rotation needs a wallet trust
 update; it is different from merchant invoice-key rotation. Independently review
 these operational tools before production custody or paid checkout rollout.
+
+## Temporary reviewer exception: September 27, 2026
+
+The owner designated **elviric** as the sole reviewer for this date in
+Asia/Kolkata. The trusted operator tools enforce this exception from
+2026-09-26T18:30:00Z until (excluding) **2026-09-27T18:30:00Z**.
+It applies to enrollment, rotation, recovery and suspension in this repository.
+Current-head approval, no self-approval, DNS and key-possession checks remain.
+The ledger records the policy ID, author and acceptance time. First publication
+must occur before the exception expires. Refreshing an unchanged previously
+signed merchant record remains possible afterward.
+
+After expiry the normal two-reviewer policy automatically resumes. A second
+independent maintainer must be configured before new changes can pass then.
+This is operator-tool governance, not a change to GitHub branch protection.
+The exception is defined in `scripts/review-policy.mjs`; no signing keys or
+merchant records are created by this designation.

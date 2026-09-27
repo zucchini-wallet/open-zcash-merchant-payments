@@ -1,3 +1,4 @@
+import { reviewRequirement } from './review-policy.mjs';
 // Operator tooling, deliberately separate from the portable invoice verifier.
 import { createHash } from 'node:crypto';
 import { validateMerchantRecord, validateRegistryPayload, verifyRegistrationProof } from '../src/index.js';
@@ -65,7 +66,9 @@ export async function verifyRotationAuthorization({previous, recordBytes, compac
 }
 
 /** Two distinct approved maintainers, fetched by the operator from GitHub, not from a PR file. */
-export function validateReviewEvidence({pull, reviews, repository, sourceCommit, maintainers}) {
+export function validateReviewEvidence({pull, reviews, repository, sourceCommit, maintainers, now = Math.floor(Date.now()/1000), policy}) {
+ const rule = reviewRequirement({repository, maintainers, now, policy});
+ maintainers = rule.maintainers;
  require(commit(sourceCommit) && pull?.head?.sha === sourceCommit && pull.base?.repo?.full_name === repository && pull.base.ref === 'main' && pull.state === 'open' && !pull.draft, 'PR source changed or is not eligible');
  const latest = new Map();
  for (const review of [...reviews].sort((a,b) => Date.parse(a.submitted_at) - Date.parse(b.submitted_at))) {
@@ -74,6 +77,6 @@ export function validateReviewEvidence({pull, reviews, repository, sourceCommit,
  }
  require(![...latest.values()].some(r => maintainers.includes(r.user?.login) && r.state === 'CHANGES_REQUESTED'), 'Maintainer requested changes');
  const approved = [...latest.values()].filter(r => r.state === 'APPROVED' && r.commit_id === sourceCommit && maintainers.includes(r.user?.login) && r.user?.login !== pull.user?.login).map(r => r.user.login);
- require(new Set(approved).size >= 2, 'Two current-head maintainer approvals required');
+ require(new Set(approved).size >= rule.quorum, `${rule.quorum} current-head maintainer approvals required`);
  return [...new Set(approved)].sort();
 }

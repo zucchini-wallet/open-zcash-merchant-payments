@@ -24,8 +24,9 @@ the X social-address registry. Public signed registry data is planned at
 
 ## Required activation evidence
 
-1. Owner names two independent GitHub reviewers (not the merchant PR author).
-   Awaiting owner response; do not invent reviewers or silently lower quorum.
+1. Owner designated `elviric` as sole reviewer for September 27, 2026,
+   Asia/Kolkata, with no self-approval. Operator tooling expires the exception
+   at 18:30 UTC; configure a second reviewer for subsequent changes.
 2. Provision registry ID, release key custody and durable signer state. Place only
    the public key/minimum sequence in extension trust. Publication token is separate
    from the signing key and from each merchant's invoice key.
@@ -42,6 +43,7 @@ the X social-address registry. Public signed registry data is planned at
 6. Enable pinned production configuration, increment extension version, build and
    audit the exact package, update disclosures as needed, then submit the new release.
 
-Registry governance remains two-person review enforced by the operator tooling;
+Registry governance normally requires two-person review, with the dated owner-authorized
+exception documented in `operator-lifecycle.md`;
 wallets verify one configured release signature. This is not threshold cryptography
 and does not eliminate trust in the registry operator/root key.

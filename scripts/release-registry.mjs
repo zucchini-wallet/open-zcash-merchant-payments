@@ -1,3 +1,4 @@
+import { temporaryReviewPolicy as policy, validateApprovalLedger } from './review-policy.mjs';
 // Release from a clean trusted main checkout. No private material comes from Git or PR files.
 // A local durable state directory allocates sequences and retains exact signed bytes.
 import {readFile,readdir,mkdir,open,rename,unlink,stat} from 'node:fs/promises';
@@ -35,9 +36,9 @@ try {
   if(!/^[a-z0-9][a-z0-9-]{0,63}\.json$/.test(file))throw Error('Invalid merchant filename');
   const bytes=await readFile(join('merchants',file)),record=strictJSON(bytes.toString('utf8')),approval=ledger.merchants[record.id];
   if(!approval||approval.recordSha256!==hash(bytes)||JSON.stringify(approval.record)!==JSON.stringify(record))throw Error('Unapproved merchant record: '+file);
-  if(!Array.isArray(approval.reviewers)||new Set(approval.reviewers).size<2||approval.reviewers.some(r=>!config.maintainers.includes(r)))throw Error('Invalid approval ledger');
   // A never-published enrollment must be merged and released while its evidence is fresh.
   const unchanged=previous?.payload.merchants.some(m=>JSON.stringify(m)===JSON.stringify(record));
+  validateApprovalLedger({approval,repository:config.repository,maintainers:config.maintainers,now,unchanged,policy});
   if(!unchanged&&record.status==='active'&&(approval.proofs.length!==record.origins.length*record.paymentKeys.length||approval.proofs.some(p=>p.expiresAt<=now)))throw Error('Enrollment proof expired before first publication');
   if(!unchanged&&record.status==='active')for(const proof of approval.proofs){const records=await resolveTxt(proof.dnsName);if(!records.some(parts=>parts.join('')===proof.dnsValue))throw Error('Domain proof changed before publication');}
   merchants.push(record);
