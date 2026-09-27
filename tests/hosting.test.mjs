@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {generateKeyPairSync,sign} from 'node:crypto';
+import {signRegistry} from '../src/server.js';
+import {RegistryStore} from '../hosting/worker.mjs';
+function setup(){const pair=generateKeyPairSync('ed25519'),store=new Map(),now=Math.floor(Date.now()/1000);const storage={get:async k=>store.get(k),put:async(k,v)=>store.set(k,v),transaction:async f=>f(storage)};
+ const trust={registryId:'production-fixture',minimumSequence:1,roots:[{kid:'root',publicKey:pair.publicKey.export({format:'jwk'}).x}]};
+ const host=new RegistryStore({storage},{REGISTRY_TRUST:JSON.stringify(trust),REGISTRY_PUBLISH_TOKEN:'s'.repeat(32)});
+ const snapshot=(sequence,extra={})=>signRegistry({version:1,registryId:trust.registryId,sequence,issuedAt:now,expiresAt:now+86400,sourceCommit:'a'.repeat(40),merchants:[],revocations:[],...extra},{kid:'root',sign:async b=>new Uint8Array(sign(null,b,pair.privateKey))});
+ const publish=async compact=>host.fetch(new Request('https://internal/operator/publish',{method:'POST',headers:{authorization:'Bearer '+'s'.repeat(32)},body:compact}));return {host,snapshot,publish,now,store};}
+test('requires publisher authentication, publishes exact signed bytes and archives history',async()=>{const s=setup(),compact=await s.snapshot(1);assert.equal((await s.host.fetch(new Request('https://internal/operator/publish',{method:'POST',body:compact}))).status,401);assert.equal((await s.publish(compact)).status,200);assert.equal(await(await s.host.fetch(new Request('https://internal/merchant-registry/v1/registry.jws'))).text(),compact);assert.equal((await s.publish(compact)).status,200);assert.equal((await s.publish(await s.snapshot(2))).status,200);assert.equal((await s.publish(compact)).status,400);assert.equal(await(await s.host.fetch(new Request('https://internal/merchant-registry/v1/archive/1.jws'))).text(),compact);});
+test('rejects conflicting sequence, signature tampering and expired publication',async()=>{const s=setup(),compact=await s.snapshot(1);await s.publish(compact);assert.equal((await s.publish(await s.snapshot(1,{sourceCommit:'b'.repeat(40)}))).status,400);assert.equal((await s.publish(compact.slice(0,-5)+'aaaaa')).status,400);assert.equal((await s.publish(await s.snapshot(2,{issuedAt:s.now-100,expiresAt:s.now-1}))).status,400);assert.equal(s.store.get('latest').compact,compact);});
+test('missing and expired latest state fail closed',async()=>{const s=setup(),url='https://internal/merchant-registry/v1/registry.jws';assert.equal((await s.host.fetch(new Request(url))).status,503);await s.publish(await s.snapshot(1));s.store.get('latest').expiresAt=0;assert.equal((await s.host.fetch(new Request(url))).status,503);});
